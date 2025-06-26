@@ -1,7 +1,6 @@
 package org.example.expert.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -29,8 +28,9 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+                                .anyRequest().permitAll()
+//                        .requestMatchers("/auth/**").permitAll()
+//                        .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
                 )
                 .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .build();
