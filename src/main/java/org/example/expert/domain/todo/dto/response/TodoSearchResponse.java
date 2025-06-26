@@ -2,7 +2,6 @@ package org.example.expert.domain.todo.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
-import org.example.expert.domain.todo.entity.Todo;
 
 @Getter
 public class TodoSearchResponse {
