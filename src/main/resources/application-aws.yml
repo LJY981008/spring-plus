@@ -1,0 +1,12 @@
+spring:
+  config:
+    activate:
+      on-profile: "aws"
+  datasource:
+    url: jdbc:mysql://spring-plus-db.crc8qsmqay11.ap-northeast-2.rds.amazonaws.com:3306/${DB_SCHEME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
