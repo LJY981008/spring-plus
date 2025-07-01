@@ -21,12 +21,14 @@ public class User extends Timestamped {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    private String profileImageUrl;
 
     public User(String email, String username, String password, UserRole userRole) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.userRole = userRole;
+        this.profileImageUrl = null;
     }
 
     private User(Long id, String email, String username, UserRole userRole) {
@@ -37,7 +39,9 @@ public class User extends Timestamped {
     }
 
     public static User fromAuthUser(AuthUser authUser) {
-        return new User(authUser.getId(), authUser.getEmail(), authUser.getUsername(), authUser.getUserRole());
+        User user = new User(authUser.getId(), authUser.getEmail(), authUser.getUsername(), authUser.getUserRole());
+        user.profileImageUrl = null;
+        return user;
     }
 
     public void changePassword(String password) {
@@ -46,5 +50,9 @@ public class User extends Timestamped {
 
     public void updateRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public void updateProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
