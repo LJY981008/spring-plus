@@ -41,4 +41,9 @@ public class UserController {
         userService.deleteProfileImage(authUser.getId());
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/users/search")
+    public ResponseEntity<UserResponse> getUsers(@RequestParam String username) {
+        return ResponseEntity.ok(userService.findUserWithName(username));
+    }
 }
