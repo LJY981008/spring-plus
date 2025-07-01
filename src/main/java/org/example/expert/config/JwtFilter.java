@@ -37,7 +37,7 @@ public class JwtFilter implements Filter {
 
         String url = httpRequest.getRequestURI();
 
-        if (url.startsWith("/auth") || url.startsWith("/health")) {
+        if (url.startsWith("/auth") || url.startsWith("/health") || url.equals("/users/search")) {
             chain.doFilter(request, response);
             return;
         }
@@ -45,8 +45,7 @@ public class JwtFilter implements Filter {
         String bearerJwt = httpRequest.getHeader("Authorization");
 
         if (bearerJwt == null) {
-            // 토큰이 없는 경우 400을 반환합니다.
-            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "JWT 토큰이 필요합니다.");
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT 토큰이 필요합니다.");
             return;
         }
 
@@ -56,11 +55,18 @@ public class JwtFilter implements Filter {
             // JWT 유효성 검사와 claims 추출
             Claims claims = jwtUtil.extractClaims(jwt);
             if (claims == null) {
-                httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 JWT 토큰입니다.");
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "잘못된 JWT 토큰입니다.");
                 return;
             }
 
             UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
+            
+            // USER 또는 ADMIN 권한만 허용
+            if (userRole != UserRole.USER && userRole != UserRole.ADMIN) {
+                httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "접근 권한이 없습니다.");
+                return;
+            }
+
             Long userId = Long.parseLong(claims.getSubject());
             String email = claims.get("email").toString();
             String username = claims.get("username").toString();
