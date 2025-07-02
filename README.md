@@ -108,3 +108,20 @@ java -jar -Dspring.profiles.active=aws expert-0.0.4-SNAPSHOT.jar
 
 - **프로젝트명**: Spring Plus
 - **버전**: 0.0.4-SNAPSHOT
+
+
+## 조회 성능 개선 결과
+
+아래는 Postman을 이용해 username으로 유저를 조회한 결과와 속도이다.
+### 일반 조회: 450ms
+<img width="1036" alt="일반 조회" src="https://github.com/user-attachments/assets/555f3314-f18e-41bf-9e97-ac9494bf6db3" />
+
+### 인덱스 조회: 144ms
+<img width="1037" alt="인덱스 조회" src="https://github.com/user-attachments/assets/c4af1ecd-18ff-4a00-816e-4d1b830eee56" />
+
+### 인덱스 + 쿼리 프로젝션 조회: 128ms
+<img width="1023" alt="인덱스 + 쿼리 프로젝션 적용" src="https://github.com/user-attachments/assets/44272601-494a-4a99-8f6f-61655d3bc535" />
+
+
+
+
