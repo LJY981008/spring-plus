@@ -81,8 +81,7 @@ public class UserService {
     }
 
     public UserResponse findUserWithName(String username) {
-        User user = Optional.ofNullable(userRepository.findByUsername(username))
+        return userRepository.findUserResponseByUsername(username)
                 .orElseThrow(() -> new InvalidRequestException("User not found"));
-        return new UserResponse(user.getId(), user.getEmail(), user.getProfileImageUrl());
     }
 }
